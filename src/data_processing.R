@@ -124,11 +124,12 @@ lease_sf$`到捷運站距離` <- read.csv("data/raw/facilities/TRTC_stations.csv
 ## Rename columns
 lease_sf <- lease_sf %>% 
   rename(`租賃面積` = `建物總面積(平方公尺)`) %>% 
-  rename(`土地使用分區` = `都市土地使用分區`)
+  rename(`土地使用分區` = `都市土地使用分區`) %>% 
+  rename(`單價` = `單價(元/平方公尺)`)
 
 ## Select columns
 lease_sf <- lease_sf %>% 
-  select(`租賃年月日`, `年`, `年月`, `t`, `是否為店面`, `村里`,
+  select(`租賃年月日`, `年`, `年月`, `t`, `是否為店面`, `村里`, `單價`,
          `到學校距離`, `到捷運站距離`,
          `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`, `有無車位`)
 
