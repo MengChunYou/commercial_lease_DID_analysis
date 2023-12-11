@@ -9,10 +9,10 @@ root/
  ├── data/                       
  │    ├── raw/
  │    │    ├── taiwan_village_polygons/
- │    │    └── lease_record/
+ │    │    └── lease_records/
  │    └── processed/
  │         ├── study_area_polygons.RData
- │         └── processed_lease_record.RData
+ │         └── processed_lease_records.RData
  │
  ├── src/ 
  │    ├── common_functions.R 
@@ -24,6 +24,7 @@ root/
  ├── outputs/                   
  │    ├── descriptive_statistics/                 
  │    │    ├── variable_summary_for_2_groups.txt
+ │    │    ├── accidents_map.png
  │    │    └── time_series.png
  │    ├── regression_results/
  │    │    ├── model_1_results.txt
