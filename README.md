@@ -9,13 +9,13 @@ commercial_lease_DID_analysis/
 ├── data/                       
 │   ├── raw_data.csv
 │   ├── cleaned_data.csv
-├── scripts/                  
+├── src/                  
 │   ├── data_cleaning.R
 │   ├── map_plotting.R
 │   ├── feature_engineering.R
 │   ├── regression_estimate.R
 │   ├── main_script.R           
-├── output/                   
+├── outputs/                   
 │   ├── maps/                   
 │   │   ├── map1.png
 │   │   ├── map2.png
