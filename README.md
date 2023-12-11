@@ -5,25 +5,42 @@
 
 ## Repository Structure
 ```plaintext
-commercial_lease_DID_analysis/
-├── data/                       
-│   ├── raw_data.csv
-│   ├── cleaned_data.csv
-├── src/                  
-│   ├── data_cleaning.R
-│   ├── map_plotting.R
-│   ├── feature_engineering.R
-│   ├── regression_estimate.R
-│   ├── main_script.R           
-├── outputs/                   
-│   ├── maps/                   
-│   │   ├── map1.png
-│   │   ├── map2.png
-│   ├── feature_engineering_output.csv
-│   ├── regression_results.txt 
-├── reports/                    
-│   ├── report.pdf
-│   ├── presentation.pdf
-├── README.md               
-├── .gitignore   
+root/
+ ├── data/                       
+ │    ├── raw/
+ │    │    ├── taiwan_village_polygons/
+ │    │    └── lease_record/
+ │    └── processed/
+ │         ├── study_area_polygons.RData
+ │         └── processed_lease_record.RData
+ │
+ ├── src/ 
+ │    ├── common_functions.R 
+ │    ├── data_processing.R
+ │    ├── descriptive_statistics.R
+ │    ├── regression_estimate.R
+ │    └── robustness_check.R  
+ │ 
+ ├── outputs/                   
+ │    ├── descriptive_statistics/                 
+ │    │    ├── variable_summary_for_2_groups.txt
+ │    │    └── time_series.png
+ │    ├── regression_results/
+ │    │    ├── model_1_results.txt
+ │    │    ├── model_2_results.txt
+ │    │    └── ...
+ │    └── robustness_check_results/
+ │         ├── coefficient_ci.png
+ │         ├── parameter_1_results.txt
+ │         ├── parameter_2_results.txt
+ │         └── ...
+ │
+ ├── reports/                    
+ │    ├── report.pdf
+ │    └── presentation.pdf
+ │
+ ├── main_script.R
+ ├── README.md               
+ ├── requirements.txt
+ └── .gitignore   
 ```
