@@ -9,7 +9,8 @@ root/
  ├── data/                       
  │    ├── raw/
  │    │    ├── taiwan_village_polygons/
- │    │    └── lease_records/
+ │    │    ├── lease_records/
+ │    │    └── facilities/
  │    └── processed/
  │         ├── study_area_polygons.RData
  │         └── processed_lease_records.RData

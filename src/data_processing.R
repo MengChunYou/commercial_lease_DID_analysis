@@ -59,11 +59,13 @@ lease_sf <- lease_sf %>% arrange(租賃年月日) %>%
 
 ## Feature engineering
 
-### Create a dummy for commercial lease building type
+### Internal data
+
+#### Create a dummy for commercial lease building type
 lease_sf <- lease_sf %>% 
   mutate(`是否為店面` = ifelse(`建物型態` == "店面(店鋪)", TRUE, FALSE))
 
-### Village
+#### Village
 lease_sf <- study_area_polygons %>% 
   select(TOWNNAME, VILLNAME) %>% 
   mutate(VILLNAME = paste(TOWNNAME, VILLNAME, sep = "")) %>% 
@@ -71,7 +73,7 @@ lease_sf <- study_area_polygons %>%
   rename(`村里` = VILLNAME) %>% 
   st_join(lease_sf, ., left = T) 
 
-### Age of building
+#### Age of building
 lease_sf$建築完成年月 <- substr(lease_sf$建築完成年月, start = 1, stop = 3) %>% 
   as.numeric() %>% 
   add(1911) %>% 
@@ -81,25 +83,43 @@ lease_sf$建築完成年月 <- substr(lease_sf$建築完成年月, start = 1, st
 
 lease_sf$`屋齡` <- as.numeric(lease_sf$`租賃年月日` - lease_sf$`建築完成年月`) / 365.25
 
-### Total floors
+#### Total floors
 lease_sf$`總樓層數` <- lease_sf$`總樓層數` %>% as.numeric()
 
-### Is first floor
+#### Is first floor
 lease_sf <- lease_sf %>% 
   mutate(`是否為一樓` = ifelse(`租賃層次` == "一層", TRUE, FALSE))
 
-### Has parking space
+#### Has parking space
 lease_sf <- lease_sf %>% 
   mutate(`有無車位` = ifelse(is.na(`車位類別`), FALSE, TRUE))
 
-### Year
+#### Year
 lease_sf$年 <- as.numeric(format(lease_sf$租賃年月日, "%Y"))
 
-### Year Month
+#### Year Month
 lease_sf$年月 <- as.yearmon(lease_sf$租賃年月日)
 
-### Difference in days from the announcement of level 3 alert
+#### Difference in days from the announcement of level 3 alert
 lease_sf$t <- as.numeric(lease_sf$租賃年月日 - as.Date("20210515", format = "%Y%m%d"))
+
+### External data (facilities)
+
+#### Distance to school
+lease_sf$`到學校距離` <- read.csv("data/raw/facilities/schools.csv") %>% 
+  st_as_sf(., coords = c("lng", "lat"), crs = 4326) %>% 
+  st_transform(crs = 3826) %>% 
+  st_filter(study_area_polygons) %>% 
+  st_distance(lease_sf, .) %>%
+  apply(., 1, min)
+
+#### Distance to TRTC stations
+lease_sf$`到捷運站距離` <- read.csv("data/raw/facilities/TRTC_stations.csv", 
+         fileEncoding = "Big5") %>% 
+  st_as_sf(., coords = c("經度", "緯度"), crs = 4326) %>% 
+  st_transform(crs = 3826) %>% 
+  st_distance(lease_sf, .) %>%
+  apply(., 1, min)
 
 ## Rename columns
 lease_sf <- lease_sf %>% 
@@ -109,7 +129,7 @@ lease_sf <- lease_sf %>%
 ## Select columns
 lease_sf <- lease_sf %>% 
   select(`租賃年月日`, `年`, `年月`, `t`, `是否為店面`, `村里`,
-         # `到交流道路口距離`, `到學校距離`, `到醫院距離`, `到診所距離`, `到藥局距離`, `到賣場距離`, `到捷運站距離`, `到墓園距離`,
+         `到學校距離`, `到捷運站距離`,
          `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`, `有無車位`)
 
 ## Save the processed data
