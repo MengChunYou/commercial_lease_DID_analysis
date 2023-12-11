@@ -24,7 +24,7 @@ root/
  ├── outputs/                   
  │    ├── descriptive_statistics/                 
  │    │    ├── variable_summary_for_2_groups.txt
- │    │    ├── accidents_map.png
+ │    │    ├── lease_records_map.png
  │    │    └── time_series.png
  │    ├── regression_results/
  │    │    ├── model_1_results.txt
