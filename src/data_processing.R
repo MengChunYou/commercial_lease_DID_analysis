@@ -101,11 +101,14 @@ lease_sf$年月 <- as.yearmon(lease_sf$租賃年月日)
 ### Difference in days from the announcement of level 3 alert
 lease_sf$t <- as.numeric(lease_sf$租賃年月日 - as.Date("20210515", format = "%Y%m%d"))
 
+### Number of rooms and bathrooms
+lease_sf <- lease_sf %>% 
+  mutate(`房間數` = as.numeric(`建物現況格局-房`)) %>% 
+  mutate(`衛浴數` = as.numeric(`建物現況格局-衛`))
+
 ## Rename columns
 lease_sf <- lease_sf %>% 
   rename(`租賃面積` = `建物總面積(平方公尺)`) %>% 
-  rename(`房間數` = `建物現況格局-房`) %>% 
-  rename(`衛浴數` = `建物現況格局-衛`) %>% 
   rename(`土地使用分區` = `都市土地使用分區`)
 
 ## Select columns
