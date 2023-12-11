@@ -101,7 +101,12 @@ lease_sf$年 <- as.numeric(format(lease_sf$租賃年月日, "%Y"))
 lease_sf$年月 <- as.yearmon(lease_sf$租賃年月日)
 
 #### Difference in days from the announcement of level 3 alert
-lease_sf$t <- as.numeric(lease_sf$租賃年月日 - as.Date("20210515", format = "%Y%m%d"))
+lease_sf$`天數差` <- as.numeric(lease_sf$租賃年月日 - as.Date("20210515", format = "%Y%m%d"))
+
+#### Difference in weeks from the announcement of level 3 alert
+lease_sf$`週數差` <- floor(lease_sf$`天數差`/7) %>% 
+  as.factor() %>% 
+  relevel(ref = "0")
 
 ### External data (facilities)
 
@@ -129,7 +134,7 @@ lease_sf <- lease_sf %>%
 
 ## Select columns
 lease_sf <- lease_sf %>% 
-  select(`租賃年月日`, `年`, `年月`, `t`, `是否為店面`, `村里`, `單價`,
+  select(`租賃年月日`, `年`, `年月`, `天數差`, `週數差`, `是否為店面`, `村里`, `單價`,
          `到學校距離`, `到捷運站距離`,
          `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`, `有無車位`)
 
