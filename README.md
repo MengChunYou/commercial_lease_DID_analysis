@@ -20,7 +20,7 @@ root/
  │    ├── data_processing.R
  │    ├── descriptive_statistics.R
  │    ├── regression_estimate.R
- │    └── robustness_check.R  
+ │    └── estimated_coefficients_plot.R
  │ 
  ├── outputs/                   
  │    ├── descriptive_statistics/                 
@@ -28,13 +28,10 @@ root/
  │    │    ├── lease_records_map.png
  │    │    └── average_unit_prices_time_series.png
  │    ├── regression_results/
- │    │    ├── model_1_results.txt
- │    │    ├── model_2_results.txt
+ │    │    ├── model_1_results.csv
+ │    │    ├── model_2_results.csv
  │    │    └── ...
- │    └── robustness_check_results/
- │         ├── coefficient_ci.png
- │         ├── parameter_1_results.txt
- │         ├── parameter_2_results.txt
+ │    └── estimated_coefficients_plot/
  │         └── ...
  │
  ├── reports/                    
