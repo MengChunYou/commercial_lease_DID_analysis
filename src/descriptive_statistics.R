@@ -60,24 +60,72 @@ dev.off()
 
 ## time series
 
-### Open a PNG device for graphics output
-open_png("outputs/descriptive_statistics/average_unit_prices_time_series.png")
+### weekly
 
-### Create Plot
+#### Open a PNG device for graphics output
+open_png("outputs/descriptive_statistics/average_unit_prices_time_series/weekly.png")
+
+#### Create Plot
+lease_sf %>% st_drop_geometry() %>% 
+  group_by(`週數差`, `是否為店面`) %>%
+  summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
+  ggplot() +
+  geom_line(aes(x = `週數差` %>% as.character() %>% as.numeric(), 
+                y = `單價`, 
+                group = `是否為店面`, color = `是否為店面`), 
+            size = 1) +
+  geom_vline(xintercept = -1, col = "darkgray", lty = 2, size = 1) +
+  labs(title = "不動產租賃平均單價時間序列", x = "週數差", y = "平均單價(元/平方公尺)") +
+  theme_bw() +
+  theme(text = element_text(family = "JhengHei", size = 20),
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+#### Close the PNG device
+dev.off()
+
+### monthly
+
+#### Open a PNG device for graphics output
+open_png("outputs/descriptive_statistics/average_unit_prices_time_series/monthly.png")
+
+#### Create Plot
 lease_sf %>% st_drop_geometry() %>% 
   group_by(`年月`, `是否為店面`) %>%
   summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
   ggplot() +
   geom_line(aes(x = `年月`, y = `單價`, 
                 group = `是否為店面`, color = `是否為店面`), 
-            size = 1.5) +
-  geom_vline(xintercept = as.Date("20210515", format = "%Y%m%d") %>% as.yearmon(), 
-             col = "darkgray", lty = 2, size = 1.5) +
+            size = 1) +
+  geom_vline(xintercept = as.Date("20210401", format = "%Y%m%d") %>% as.yearmon(), 
+             col = "darkgray", lty = 2, size = 1) +
   labs(title = "不動產租賃平均單價時間序列", x = "年月", y = "平均單價(元/平方公尺)") +
   theme_bw() +
   scale_x_yearmon(format = "%Y-%m") +
   theme(text = element_text(family = "JhengHei", size = 20),
         plot.title = element_text(hjust = 0.5, face = "bold"))
 
-### Close the PNG device
+#### Close the PNG device
+dev.off()
+
+### quarterly
+
+#### Open a PNG device for graphics output
+open_png("outputs/descriptive_statistics/average_unit_prices_time_series/quarterly.png")
+
+#### Create Plot
+lease_sf %>% st_drop_geometry() %>% 
+  group_by(`季數差`, `是否為店面`) %>%
+  summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
+  ggplot() +
+  geom_line(aes(x = `季數差` %>% as.character() %>% as.numeric(), 
+                y = `單價`, 
+                group = `是否為店面`, color = `是否為店面`), 
+            size = 1) +
+  geom_vline(xintercept = -1, col = "darkgray", lty = 2, size = 1) +
+  labs(title = "不動產租賃平均單價時間序列", x = "季數差", y = "平均單價(元/平方公尺)") +
+  theme_bw() +
+  theme(text = element_text(family = "JhengHei", size = 20),
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+#### Close the PNG device
 dev.off()
