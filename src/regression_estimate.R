@@ -6,10 +6,10 @@ library(dplyr)
 
 load("data/processed/processed_lease_records.Rdata")
 
-# model 1 (full model)
+# model 1 (weekly)
 
 ## fit model
-model_1 <- lease_sf %>% st_drop_geometry() %>% 
+my_model <- lease_sf %>% st_drop_geometry() %>% 
   lm(`單價`~ 0 + `是否為店面` * `週數差` + 
        `到學校距離` + `到捷運站距離` + `屋齡` +
        `總樓層數` + `租賃面積` + `是否為一樓` + `土地使用分區` + `有無車位` +
@@ -17,18 +17,75 @@ model_1 <- lease_sf %>% st_drop_geometry() %>%
      data = .)
 
 ## write results
-summary(model_1)$coefficient %>% as.data.frame() %>% 
-  write.csv(., "outputs/regression_results/model_1_results.csv", fileEncoding = "utf8")
+result_df <- data.frame(
+  coef = names(my_model$coefficients)
+)
+result_df <- summary(my_model)$coefficients %>% 
+  as.data.frame() %>% 
+  mutate(coef = rownames(.)) %>% 
+  left_join(result_df, ., by = join_by(coef))
+result_df <- confint(my_model) %>% 
+  as.data.frame() %>% 
+  mutate(coef = rownames(.)) %>% 
+  left_join(result_df, ., by = join_by(coef))
 
-# model 2 
+result_df %>% 
+  write.csv(., 
+            "outputs/regression_results/model_1_results.csv", 
+            fileEncoding = "utf8")
+
+# model 2 (monthly)
 
 ## fit model
-model_2 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `是否為店面` * `週數差` + 
+model_1 <- lease_sf %>% st_drop_geometry() %>% 
+  lm(`單價`~ 0 + `是否為店面` * `月數差` + 
        `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + `土地使用分區` + `有無車位`, 
+       `總樓層數` + `租賃面積` + `是否為一樓` + `土地使用分區` + `有無車位` +
+       `村里`, 
      data = .)
 
 ## write results
-summary(model_2)$coefficient %>% as.data.frame() %>% 
-  write.csv(., "outputs/regression_results/model_2_results.csv", fileEncoding = "utf8")
+result_df <- data.frame(
+  coef = names(my_model$coefficients)
+)
+result_df <- summary(my_model)$coefficients %>% 
+  as.data.frame() %>% 
+  mutate(coef = rownames(.)) %>% 
+  left_join(result_df, ., by = join_by(coef))
+result_df <- confint(my_model) %>% 
+  as.data.frame() %>% 
+  mutate(coef = rownames(.)) %>% 
+  left_join(result_df, ., by = join_by(coef))
+
+result_df %>% 
+  write.csv(., 
+            "outputs/regression_results/model_2_results.csv", 
+            fileEncoding = "utf8")
+
+# model 3 (quarterly)
+
+## fit model
+model_1 <- lease_sf %>% st_drop_geometry() %>% 
+  lm(`單價`~ 0 + `是否為店面` * `季數差` + 
+       `到學校距離` + `到捷運站距離` + `屋齡` +
+       `總樓層數` + `租賃面積` + `是否為一樓` + `土地使用分區` + `有無車位` +
+       `村里`, 
+     data = .)
+
+## write results
+result_df <- data.frame(
+  coef = names(my_model$coefficients)
+)
+result_df <- summary(my_model)$coefficients %>% 
+  as.data.frame() %>% 
+  mutate(coef = rownames(.)) %>% 
+  left_join(result_df, ., by = join_by(coef))
+result_df <- confint(my_model) %>% 
+  as.data.frame() %>% 
+  mutate(coef = rownames(.)) %>% 
+  left_join(result_df, ., by = join_by(coef))
+
+result_df %>% 
+  write.csv(., 
+            "outputs/regression_results/model_3_results.csv", 
+            fileEncoding = "utf8")
