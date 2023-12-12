@@ -54,7 +54,7 @@ lease_sf$租賃年月日 <- substr(lease_sf$租賃年月日, start = 1, stop = 3
   as.Date(format = "%Y%m%d")
 
 lease_sf <- lease_sf %>% arrange(租賃年月日) %>% 
-  filter(租賃年月日 >= as.Date("20120101", format = "%Y%m%d")) %>% 
+  filter(租賃年月日 >= as.Date("20200101", format = "%Y%m%d")) %>% 
   filter(租賃年月日 <= as.Date("20221231", format = "%Y%m%d"))
 
 ## Feature engineering
