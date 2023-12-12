@@ -45,7 +45,7 @@ lease_sf <- lease_sf %>%
   st_filter(st_union(study_area_polygons))
 message(paste("number of accidents in study area:", nrow(lease_sf)))
 
-### Retain only lease records happened between 2012 and 2022
+### Retain only lease records happened between 2020 and 2022
 lease_sf$租賃年月日 <- substr(lease_sf$租賃年月日, start = 1, stop = 3) %>% 
   as.numeric() %>% 
   add(1911) %>% 
@@ -94,18 +94,17 @@ lease_sf$`總樓層數` <- lease_sf$`總樓層數` %>% as.numeric()
 lease_sf <- lease_sf %>% 
   mutate(`是否為一樓` = ifelse(`租賃層次` == "一層", TRUE, FALSE))
 
-#### Has parking space
-lease_sf <- lease_sf %>% 
-  mutate(`有無車位` = ifelse(is.na(`車位類別`), FALSE, TRUE))
-
 #### Year
-lease_sf$年 <- as.numeric(format(lease_sf$租賃年月日, "%Y"))
+lease_sf$`年` <- as.numeric(format(lease_sf$`租賃年月日`, "%Y"))
+
+#### Month
+lease_sf$`月` <- months(lease_sf$`租賃年月日`)
 
 #### Year Month
-lease_sf$年月 <- as.yearmon(lease_sf$租賃年月日)
+lease_sf$`年月` <- as.yearmon(lease_sf$`租賃年月日`)
 
 #### Difference in days from the announcement of level 3 alert
-lease_sf$`天數差` <- as.numeric(lease_sf$租賃年月日 - as.Date("20210515", format = "%Y%m%d"))
+lease_sf$`天數差` <- as.numeric(lease_sf$`租賃年月日` - as.Date("20210515", format = "%Y%m%d"))
 
 #### Difference in weeks from the announcement of level 3 alert
 lease_sf$`週數差` <- floor(lease_sf$`天數差`/7) %>% 
@@ -148,11 +147,11 @@ lease_sf <- lease_sf %>%
 
 ## Select columns
 lease_sf <- lease_sf %>% 
-  select(`租賃年月日`, `年`, `年月`, `天數差`, `週數差`, `月數差`, `季數差`,
+  select(`租賃年月日`, `年`, `月`, `年月`, `天數差`, `週數差`, `月數差`, `季數差`,
          `是否為店面`, `村里`, 
          `單價`, `ln單價`,
          `到學校距離`, `到捷運站距離`,
-         `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`, `有無車位`)
+         `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`)
 
 ## Save the processed data
 save(lease_sf, 

@@ -40,7 +40,7 @@ lease <- lease_sf %>%
 open_png("outputs/descriptive_statistics/lease_records_map.png")
 
 ### Create Plot
-village + town + lease + 
+p <- village + town + lease + 
   tm_layout(frame = F, fontfamily = "JhengHei",
             legend.text.size = 1,
             legend.title.size = 1.5,
@@ -55,6 +55,8 @@ village + town + lease +
                 col = c("gray90", "gray70"),
                 labels = c("村里界", "鄉鎮市區界"))
 
+print(p)
+
 ### Close the PNG device
 dev.off()
 
@@ -66,7 +68,7 @@ dev.off()
 open_png("outputs/descriptive_statistics/average_unit_prices_time_series/weekly.png")
 
 #### Create Plot
-lease_sf %>% st_drop_geometry() %>% 
+p <- lease_sf %>% st_drop_geometry() %>% 
   group_by(`週數差`, `是否為店面`) %>%
   summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
   ggplot() +
@@ -80,6 +82,8 @@ lease_sf %>% st_drop_geometry() %>%
   theme(text = element_text(family = "JhengHei", size = 20),
         plot.title = element_text(hjust = 0.5, face = "bold"))
 
+print(p)
+
 #### Close the PNG device
 dev.off()
 
@@ -89,7 +93,7 @@ dev.off()
 open_png("outputs/descriptive_statistics/average_unit_prices_time_series/monthly.png")
 
 #### Create Plot
-lease_sf %>% st_drop_geometry() %>% 
+p <- lease_sf %>% st_drop_geometry() %>% 
   group_by(`年月`, `是否為店面`) %>%
   summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
   ggplot() +
@@ -104,6 +108,8 @@ lease_sf %>% st_drop_geometry() %>%
   theme(text = element_text(family = "JhengHei", size = 20),
         plot.title = element_text(hjust = 0.5, face = "bold"))
 
+print(p)
+
 #### Close the PNG device
 dev.off()
 
@@ -113,7 +119,7 @@ dev.off()
 open_png("outputs/descriptive_statistics/average_unit_prices_time_series/quarterly.png")
 
 #### Create Plot
-lease_sf %>% st_drop_geometry() %>% 
+p <- lease_sf %>% st_drop_geometry() %>% 
   group_by(`季數差`, `是否為店面`) %>%
   summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
   ggplot() +
@@ -126,6 +132,8 @@ lease_sf %>% st_drop_geometry() %>%
   theme_bw() +
   theme(text = element_text(family = "JhengHei", size = 20),
         plot.title = element_text(hjust = 0.5, face = "bold"))
+
+print(p)
 
 #### Close the PNG device
 dev.off()
