@@ -26,7 +26,7 @@ root/
  │    ├── descriptive_statistics/                 
  │    │    ├── variable_summary_for_2_groups.txt
  │    │    ├── lease_records_map.png
- │    │    └── average_unit_prices_time_series.png
+ │    │    └── average_unit_prices_time_series/
  │    ├── regression_results/
  │    │    ├── model_1_results.csv
  │    │    ├── model_2_results.csv
