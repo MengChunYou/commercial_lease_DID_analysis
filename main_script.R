@@ -14,7 +14,7 @@ source("src/descriptive_statistics.R")
 # 3: regression
 source("src/regression_estimate.R")
 
-# 4: robustness check
-source("src/robustness_check.R")
+# 4: plot estimated coefficients
+source("src/estimated_coefficients_plot.R")
 
 # end of main_script.R
