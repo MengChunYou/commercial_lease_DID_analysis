@@ -18,7 +18,7 @@ write_result <- function(lm_result, output_name) {
     as.data.frame() %>% 
     mutate(coef = rownames(.)) %>% 
     left_join(result_df, ., by = join_by(coef))
-  colnames(result_df) <- c("coef", "estimate", "se", "t_value", "lower", "upper")
+  colnames(result_df) <- c("coef", "estimate", "se", "t_value", "p_value", "lower", "upper")
   write.csv(result_df, 
             paste("outputs/regression_results/", output_name, sep = ""), 
             fileEncoding = "utf8", row.names = F)
