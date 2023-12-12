@@ -112,6 +112,11 @@ lease_sf$`週數差` <- floor(lease_sf$`天數差`/7) %>%
   as.factor() %>% 
   relevel(ref = "0")
 
+#### Difference in months from the announcement of level 3 alert
+lease_sf$`月數差` <- floor(lease_sf$`天數差`/30.44) %>% 
+  as.factor() %>% 
+  relevel(ref = "0")
+
 ### External data (facilities)
 
 #### Distance to school
@@ -138,7 +143,7 @@ lease_sf <- lease_sf %>%
 
 ## Select columns
 lease_sf <- lease_sf %>% 
-  select(`租賃年月日`, `年`, `年月`, `天數差`, `週數差`, `是否為店面`, `村里`, 
+  select(`租賃年月日`, `年`, `年月`, `天數差`, `週數差`, `月數差`, `是否為店面`, `村里`, 
          `單價`, `ln單價`,
          `到學校距離`, `到捷運站距離`,
          `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`, `有無車位`)
