@@ -30,7 +30,7 @@ save_estimated_coef_plot <- function(input_name) {
     ggplot() +
     geom_ribbon(aes(x = t, ymin = lower, ymax = upper), fill = "grey70", alpha = 0.5) +
     geom_line(aes(x = t, y = estimate), color = "blue", size = 1) +
-    geom_vline(xintercept = 0, col = "darkgray", lty = 2, size = 1) +
+    geom_vline(xintercept = -1, col = "darkgray", lty = 2, size = 1) +
     labs(title = "三級警戒措施對店面類型不動產租賃單價的影響", 
          x = paste("與三級警戒公告的", t_name, sep = ""), y = "Estimated coefficients") +
     theme_bw() +
