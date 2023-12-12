@@ -61,6 +61,10 @@ lease_sf <- lease_sf %>% arrange(租賃年月日) %>%
 
 ### Internal data
 
+#### ln(unit price)
+lease_sf <- lease_sf %>% 
+  mutate(`ln單價` = log(`單價(元/平方公尺)`))
+
 #### Create a dummy for commercial lease building type
 lease_sf <- lease_sf %>% 
   mutate(`是否為店面` = ifelse(`建物型態` == "店面(店鋪)", TRUE, FALSE))
@@ -134,7 +138,8 @@ lease_sf <- lease_sf %>%
 
 ## Select columns
 lease_sf <- lease_sf %>% 
-  select(`租賃年月日`, `年`, `年月`, `天數差`, `週數差`, `是否為店面`, `村里`, `單價`,
+  select(`租賃年月日`, `年`, `年月`, `天數差`, `週數差`, `是否為店面`, `村里`, 
+         `單價`, `ln單價`,
          `到學校距離`, `到捷運站距離`,
          `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`, `有無車位`)
 
