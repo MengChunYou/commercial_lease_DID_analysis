@@ -44,8 +44,6 @@ save_estimated_coef_plot <- function(input_name) {
   dev.off()
 }
 
-
-
 # run save_estimated_coef_plot function
 input_names <- list.files("outputs/regression_results/", pattern='results.csv')
 for (input_name in input_names) {
