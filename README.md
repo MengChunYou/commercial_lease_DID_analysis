@@ -32,7 +32,8 @@ root/
  │    │    ├── model_2_results.csv
  │    │    └── ...
  │    └── estimated_coefficients_plot/
- │         └── ...
+ │         ├── model_1_estimated_coef_plot.png
+ │         └── model_2_estimated_coef_plot.png
  │
  ├── reports/                    
  │    ├── report.pdf
