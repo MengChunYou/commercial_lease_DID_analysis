@@ -29,15 +29,14 @@ result_df <- confint(my_model) %>%
   mutate(coef = rownames(.)) %>% 
   left_join(result_df, ., by = join_by(coef))
 
-result_df %>% 
-  write.csv(., 
-            "outputs/regression_results/model_1_results.csv", 
-            fileEncoding = "utf8")
+write.csv(result_df, 
+          "outputs/regression_results/model_1_results.csv", 
+          fileEncoding = "utf8", row.names = F)
 
 # model 2 (monthly)
 
 ## fit model
-model_1 <- lease_sf %>% st_drop_geometry() %>% 
+my_model <- lease_sf %>% st_drop_geometry() %>% 
   lm(`單價`~ 0 + `是否為店面` * `月數差` + 
        `到學校距離` + `到捷運站距離` + `屋齡` +
        `總樓層數` + `租賃面積` + `是否為一樓` + `土地使用分區` + `有無車位` +
@@ -57,15 +56,14 @@ result_df <- confint(my_model) %>%
   mutate(coef = rownames(.)) %>% 
   left_join(result_df, ., by = join_by(coef))
 
-result_df %>% 
-  write.csv(., 
-            "outputs/regression_results/model_2_results.csv", 
-            fileEncoding = "utf8")
+write.csv(result_df, 
+          "outputs/regression_results/model_2_results.csv", 
+          fileEncoding = "utf8", row.names = F)
 
 # model 3 (quarterly)
 
 ## fit model
-model_1 <- lease_sf %>% st_drop_geometry() %>% 
+my_model <- lease_sf %>% st_drop_geometry() %>% 
   lm(`單價`~ 0 + `是否為店面` * `季數差` + 
        `到學校距離` + `到捷運站距離` + `屋齡` +
        `總樓層數` + `租賃面積` + `是否為一樓` + `土地使用分區` + `有無車位` +
@@ -85,7 +83,6 @@ result_df <- confint(my_model) %>%
   mutate(coef = rownames(.)) %>% 
   left_join(result_df, ., by = join_by(coef))
 
-result_df %>% 
-  write.csv(., 
-            "outputs/regression_results/model_3_results.csv", 
-            fileEncoding = "utf8")
+write.csv(result_df, 
+          "outputs/regression_results/model_3_results.csv", 
+          fileEncoding = "utf8", row.names = F)
