@@ -24,7 +24,7 @@ root/
  │ 
  ├── outputs/                   
  │    ├── descriptive_statistics/                 
- │    │    ├── variable_summary_for_2_groups.txt
+ │    │    ├── variable_summary_for_2_groups.txt (WIP)
  │    │    ├── lease_records_map.png
  │    │    └── average_unit_prices_time_series/
  │    ├── regression_results/
@@ -36,8 +36,8 @@ root/
  │         └── model_2_estimated_coef_plot.png
  │
  ├── reports/                    
- │    ├── report.pdf
- │    └── presentation.pdf
+ │    ├── report.pdf (WIP)
+ │    └── presentation.pdf (WIP)
  │
  ├── main_script.R
  ├── README.md               
