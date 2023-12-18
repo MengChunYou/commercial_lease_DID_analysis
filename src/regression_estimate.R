@@ -24,91 +24,86 @@ write_result <- function(lm_result, output_name) {
             fileEncoding = "utf8", row.names = F)
 }
 
-# model 1 (weekly)
-model_1 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `月` + `是否為店面` * `週數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區` + 
-       `村里`, 
-     data = .)
+formulas <- list()
 
-# model 2 (monthly)
-model_2 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `月` + `是否為店面` * `月數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區` + 
-       `村里`, 
-     data = .)
+# model 1
+formulas <- (
+  `單價`~ 0 + `月` + `是否為店面` * `月數差` + 
+  `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+  I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+  `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+  `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織` +
+  `村里`
+  ) %>% append(formulas, .)
 
-# model 3 (quarterly)
-model_3 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `月` + `是否為店面` * `季數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區` + 
-       `村里`, 
-     data = .)
+# model 2
+formulas <- (
+  `單價`~ 0 + `月` + `是否為店面` * `季數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織` +
+    `村里`
+) %>% append(formulas, .)
 
-# model 4 (weekly)
-model_4 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `月` + `是否為店面` * `週數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區`, 
-     data = .)
+# model 3
+formulas <- (
+  `單價`~ 0 + `月` + `是否為店面` * `月數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織`
+) %>% append(formulas, .)
 
-# model 5 (monthly)
-model_5 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `月` + `是否為店面` * `月數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區`, 
-     data = .)
+# model 4
+formulas <- (
+  `單價`~ 0 + `月` + `是否為店面` * `季數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織`
+) %>% append(formulas, .)
 
-# model 6 (quarterly)
-model_6 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `月` + `是否為店面` * `季數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區`, 
-     data = .)
+# model 5
+formulas <- (
+  `單價`~ 0 + `是否為店面` * `月數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織` +
+    `村里`
+) %>% append(formulas, .)
 
-# model 7 (weekly)
-model_7 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `是否為店面` * `週數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區` + 
-       `村里`, 
-     data = .)
+# model 6
+formulas <- (
+  `單價`~ 0 + `是否為店面` * `季數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織` +
+    `村里`
+) %>% append(formulas, .)
 
-# model 8 (monthly)
-model_8 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `是否為店面` * `月數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區` + 
-       `村里`, 
-     data = .)
+# model 7
+formulas <- (
+  `單價`~ 0 + `是否為店面` * `月數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織`
+) %>% append(formulas, .)
 
-# model 9 (quarterly)
-model_9 <- lease_sf %>% st_drop_geometry() %>% 
-  lm(`單價`~ 0 + `是否為店面` * `季數差` + 
-       `到學校距離` + `到捷運站距離` + `屋齡` +
-       `總樓層數` + `租賃面積` + `是否為一樓` + 
-       `土地使用分區` + 
-       `村里`, 
-     data = .)
+# model 8
+formulas <- (
+  `單價`~ 0 + `是否為店面` * `季數差` + 
+    `到學校距離` + `到捷運站距離` + `到醫療機構距離` +
+    I(`到學校距離`^2) + I(`到捷運站距離`^2) + I(`到醫療機構距離`^2) +
+    `屋齡` + `房間數` +`衛浴數` + `總樓層數` + `租賃面積` + 
+    `是否為一樓` + `土地使用分區` + `有無附傢俱` + `有無管理組織`
+) %>% append(formulas, .)
 
-# write results
-write_result(model_1, "model_1_results.csv")
-write_result(model_2, "model_2_results.csv")
-write_result(model_3, "model_3_results.csv")
-write_result(model_4, "model_4_results.csv")
-write_result(model_5, "model_5_results.csv")
-write_result(model_6, "model_6_results.csv")
-write_result(model_7, "model_7_results.csv")
-write_result(model_8, "model_8_results.csv")
-write_result(model_9, "model_9_results.csv")
+# Perform regression estimate and save results
+for (ii in 1:length(formulas)) {
+  lm(formulas[[ii]], data = lease_sf) %>% 
+    write_result(., paste("model_", ii, "_results.csv", sep = ""))
+}

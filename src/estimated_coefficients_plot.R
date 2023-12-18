@@ -27,6 +27,8 @@ save_estimated_coef_plot <- function(input_name) {
     mutate(coef = gsub("^是否為店面TRUE:", "", coef)) %>% 
     mutate(coef = as.numeric(gsub(t_name, "", coef))) %>% 
     rename(t = coef) %>% 
+    select(t, estimate, lower, upper) %>% 
+    rbind(., data.frame(t = -1, estimate = 0, lower = 0, upper = 0)) %>% 
     ggplot() +
     geom_ribbon(aes(x = t, ymin = lower, ymax = upper), fill = "grey70", alpha = 0.5) +
     geom_line(aes(x = t, y = estimate), color = "blue", size = 1) +
