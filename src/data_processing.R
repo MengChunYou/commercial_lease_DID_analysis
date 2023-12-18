@@ -57,6 +57,10 @@ lease_sf <- lease_sf %>% arrange(租賃年月日) %>%
   filter(租賃年月日 >= as.Date("20200101", format = "%Y%m%d")) %>% 
   filter(租賃年月日 <= as.Date("20221231", format = "%Y%m%d"))
 
+### Retain only lease records at 1st floor
+lease_sf <- lease_sf %>% 
+  filter(`租賃層次` == "一層")
+
 ## Feature engineering
 
 ### Internal data
@@ -91,8 +95,8 @@ lease_sf$`屋齡` <- as.numeric(lease_sf$`租賃年月日` - lease_sf$`建築完
 lease_sf$`總樓層數` <- lease_sf$`總樓層數` %>% as.numeric()
 
 #### Is first floor
-lease_sf <- lease_sf %>% 
-  mutate(`是否為一樓` = ifelse(`租賃層次` == "一層", TRUE, FALSE))
+# lease_sf <- lease_sf %>% 
+#   mutate(`是否為一樓` = ifelse(`租賃層次` == "一層", TRUE, FALSE))
 
 #### Year
 lease_sf$`年` <- as.numeric(format(lease_sf$`租賃年月日`, "%Y"))
@@ -151,7 +155,8 @@ lease_sf <- lease_sf %>%
          `是否為店面`, `村里`, 
          `單價`, `ln單價`,
          `到學校距離`, `到捷運站距離`,
-         `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`, `土地使用分區`)
+         `屋齡`, `總樓層數`, `租賃面積`, #`是否為一樓`, 
+         `土地使用分區`)
 
 ## Save the processed data
 save(lease_sf, 
