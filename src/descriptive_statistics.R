@@ -62,31 +62,6 @@ dev.off()
 
 ## time series
 
-### weekly
-
-#### Open a PNG device for graphics output
-open_png("outputs/descriptive_statistics/average_unit_prices_time_series/weekly.png")
-
-#### Create Plot
-p <- lease_sf %>% st_drop_geometry() %>% 
-  group_by(`週數差`, `是否為店面`) %>%
-  summarise(`單價` = mean(`單價`, na.rm = TRUE)) %>%
-  ggplot() +
-  geom_line(aes(x = `週數差` %>% as.character() %>% as.numeric(), 
-                y = `單價`, 
-                group = `是否為店面`, color = `是否為店面`), 
-            size = 1) +
-  geom_vline(xintercept = -1, col = "darkgray", lty = 2, size = 1) +
-  labs(title = "不動產租賃平均單價時間序列", x = "週數差", y = "平均單價(元/平方公尺)") +
-  theme_bw() +
-  theme(text = element_text(family = "JhengHei", size = 20),
-        plot.title = element_text(hjust = 0.5, face = "bold"))
-
-print(p)
-
-#### Close the PNG device
-dev.off()
-
 ### monthly
 
 #### Open a PNG device for graphics output
