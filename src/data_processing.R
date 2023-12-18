@@ -39,11 +39,11 @@ lease <- rbind(
 ### Retain only lease records within the study area
 lease_sf <- lease %>% 
   st_as_sf(coords = c("交易標的橫坐標", "交易標的縱坐標"), crs = 3826)
-message(paste("number of accidents:", nrow(lease_sf)))
+message(paste("number of records:", nrow(lease_sf)))
 
 lease_sf <- lease_sf %>% 
   st_filter(st_union(study_area_polygons))
-message(paste("number of accidents in study area:", nrow(lease_sf)))
+message(paste("number of records in study area:", nrow(lease_sf)))
 
 ### Retain only lease records happened between 2020 and 2022
 lease_sf$租賃年月日 <- substr(lease_sf$租賃年月日, start = 1, stop = 3) %>% 
@@ -56,26 +56,25 @@ lease_sf$租賃年月日 <- substr(lease_sf$租賃年月日, start = 1, stop = 3
 lease_sf <- lease_sf %>% arrange(租賃年月日) %>% 
   filter(租賃年月日 >= as.Date("20200101", format = "%Y%m%d")) %>% 
   filter(租賃年月日 <= as.Date("20221231", format = "%Y%m%d"))
-
-### Retain only lease records at 1st floor
-# lease_sf <- lease_sf %>% 
-#   filter(`租賃層次` == "一層")
+message(paste("number of records:", nrow(lease_sf)))
 
 ### Retain only specific types
-lease_sf <- lease_sf %>% 
-  filter(`建物型態` %in% c("店面(店鋪)",
-                       "公寓(5樓含以下無電梯)", 
-                       "華廈(10層含以下有電梯)", 
-                       "套房(1房1廳1衛)", 
-                       "住宅大樓(11層含以上有電梯)"))
+# lease_sf <- lease_sf %>%
+#   filter(`建物型態` %in% c("店面(店鋪)",
+#                        "公寓(5樓含以下無電梯)",
+#                        "華廈(10層含以下有電梯)",
+#                        "套房(1房1廳1衛)",
+#                        "住宅大樓(11層含以上有電梯)"))
+# message(paste("number of records:", nrow(lease_sf)))
+
+### Exclude records that only lease parking spaces and land
+lease_sf <- lease_sf %>%
+  filter((`交易標的` %>% grepl("建物", .)))
+message(paste("number of records:", nrow(lease_sf)))
 
 ## Feature engineering
 
 ### Internal data
-
-#### ln(unit price)
-lease_sf <- lease_sf %>% 
-  mutate(`ln單價` = log(`單價(元/平方公尺)`))
 
 #### Create a dummy for commercial lease building type
 lease_sf <- lease_sf %>% 
@@ -102,6 +101,12 @@ lease_sf$`屋齡` <- as.numeric(lease_sf$`租賃年月日` - lease_sf$`建築完
 #### Total floors
 lease_sf$`總樓層數` <- lease_sf$`總樓層數` %>% as.numeric()
 
+#### Rooms
+lease_sf$`建物現況格局-房` <- lease_sf$`建物現況格局-房` %>% as.numeric()
+
+#### Bathrooms
+lease_sf$`建物現況格局-衛` <- lease_sf$`建物現況格局-衛` %>% as.numeric()
+
 #### Is first floor
 lease_sf <- lease_sf %>%
   mutate(`是否為一樓` = ifelse(`租賃層次` == "一層", TRUE, FALSE))
@@ -121,17 +126,17 @@ lease_sf$`天數差` <- as.numeric(lease_sf$`租賃年月日` - as.Date("2021051
 #### Difference in weeks from the announcement of level 3 alert
 lease_sf$`週數差` <- floor(lease_sf$`天數差`/7) %>% 
   as.factor() %>% 
-  relevel(ref = "0")
+  relevel(ref = "-1")
 
 #### Difference in months from the announcement of level 3 alert
 lease_sf$`月數差` <- floor(lease_sf$`天數差`/30.44) %>% 
   as.factor() %>% 
-  relevel(ref = "0")
+  relevel(ref = "-1")
 
 #### Difference in quarters from the announcement of level 3 alert
 lease_sf$`季數差` <- floor(lease_sf$`天數差`/91.3125) %>% 
   as.factor() %>% 
-  relevel(ref = "0")
+  relevel(ref = "-1")
 
 ### External data (facilities)
 
@@ -151,20 +156,34 @@ lease_sf$`到捷運站距離` <- read.csv("data/raw/facilities/TRTC_stations.csv
   st_distance(lease_sf, .) %>%
   apply(., 1, min)
 
+#### Distance to hospitals
+lease_sf$`到醫療機構距離` <- read.csv("data/raw/facilities/hospitals.csv") %>% 
+  st_as_sf(., coords = c("lng", "lat"), crs = 4326) %>% 
+  st_transform(crs = 3826) %>% 
+  st_distance(lease_sf, .) %>%
+  apply(., 1, min)
+
 ## Rename columns
 lease_sf <- lease_sf %>% 
   rename(`租賃面積` = `建物總面積(平方公尺)`) %>% 
   rename(`土地使用分區` = `都市土地使用分區`) %>% 
-  rename(`單價` = `單價(元/平方公尺)`)
+  rename(`單價` = `單價(元/平方公尺)`) %>% 
+  rename(`房間數` = `建物現況格局-房`) %>% 
+  rename(`衛浴數` = `建物現況格局-衛`)
 
 ## Select columns
 lease_sf <- lease_sf %>% 
   select(`租賃年月日`, `年`, `月`, `年月`, `天數差`, `週數差`, `月數差`, `季數差`,
+         `房間數`, `衛浴數`, `有無附傢俱`, `有無管理組織`,
          `是否為店面`, `村里`, 
-         `單價`, `ln單價`,
-         `到學校距離`, `到捷運站距離`,
+         `單價`,
+         `到學校距離`, `到捷運站距離`, `到醫療機構距離`,
          `屋齡`, `總樓層數`, `租賃面積`, `是否為一樓`,
          `土地使用分區`)
+
+## Filter out missing data
+lease_sf <- lease_sf %>% na.omit()
+message(paste("number of records:", nrow(lease_sf)))
 
 ## Save the processed data
 save(lease_sf, 
