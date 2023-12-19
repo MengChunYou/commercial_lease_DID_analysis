@@ -10,6 +10,7 @@ write_result <- function(lm_result, output_name) {
   
   # This is a function to write result of estimated coefficients in to csv.
   result_df <- data.frame(coef = names(lm_result$coefficients))
+  print(summary(lm_result)$coefficients)
   result_df <- summary(lm_result)$coefficients %>% 
     as.data.frame() %>% 
     mutate(coef = rownames(.)) %>% 
