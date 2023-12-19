@@ -61,13 +61,13 @@ variable_summary <- variable_summary %>%
   mutate(Treatment = ifelse(
     grepl("mean", rownames(.)) | grepl("length", rownames(.)), 
     round(Treatment, 3),
-    paste("(", round(Treatment, 3), ")", sep = "")
+    paste("（", round(Treatment, 3), "）", sep = "")
   )
   ) %>% 
   mutate(Comparison = ifelse(
     grepl("mean", rownames(.)) | grepl("length", rownames(.)), 
     round(Comparison, 3),
-    paste("(", round(Comparison, 3), ")", sep = "")
+    paste("（", round(Comparison, 3), "）", sep = "")
   )
   )
 
@@ -92,7 +92,7 @@ variable_summary[2*c(1:11),3] <- c(
     mean(lease_sf$`是否為一樓`)*(1-mean(lease_sf$`是否為一樓`))*
       (1/sum(lease_sf$`是否為店面`=="TRUE") + 1/sum(lease_sf$`是否為店面`=="FALSE"))
   )
-) %>% round(3) %>% paste("[", ., "]", sep = "")
+) %>% round(3) %>% paste("［", ., "］", sep = "")
 
 variable_summary %>% 
   mutate(variable = c("房間數", "",
