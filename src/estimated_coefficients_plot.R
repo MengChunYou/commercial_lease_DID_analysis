@@ -33,8 +33,9 @@ save_estimated_coef_plot <- function(input_name) {
     geom_ribbon(aes(x = t, ymin = lower, ymax = upper), fill = "grey70", alpha = 0.5) +
     geom_line(aes(x = t, y = estimate), color = "blue", size = 1) +
     geom_vline(xintercept = -1, col = "darkgray", lty = 2, size = 1) +
-    labs(title = "三級警戒措施對店面類型不動產租賃單價的影響", 
-         x = paste("與三級警戒公告的", t_name, sep = ""), y = "Estimated coefficients") +
+    labs(title = "", 
+         x = paste("與三級警戒公告的", t_name, sep = ""), 
+         y = "對租賃單價的影響") +
     theme_bw() +
     theme(text = element_text(family = "JhengHei", size = 20),
           plot.title = element_text(hjust = 0.5, face = "bold"),
