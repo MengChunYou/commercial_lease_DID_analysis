@@ -8,11 +8,11 @@ This repository contains the final project for the [Applied Econometrics](https:
 - [Repository Structure](#repository-structure)
 - [Required Packages](#required-packages)
 
-## Project Abstract {#project-abstract}
+## Project Abstract
 
 This project investigates the impact of crowd management on commercial lease price, using Taipei City's Level 3 epidemic alert from May to July 2021 as the empirical study period.During the COVID-19 pandemic, some countries or cities implemented crowd management to prevent the spread of the virus, resulting in corresponding economic losses. Rental costs for storefronts represent a fixed cost for physical businesses, accounting for approximately 15% of the total costs. Under crowd management policies, with reduced traffic, fluctuations in rental costs become crucial for the survival of physical businesses. Methodologically, this study utilizes Taipei City's real estate lease data and applies the difference-in-differences model, incorporating housing characteristics and proximity to building facilities to estimate the effects. Results indicate that during the control period, compared to the pre-control period, rental prices per square meter for storefronts decreased by approximately NT\$34.8. However, in the 2nd to 4th quarters after the control measures, prices increased by approximately NT\$58.3, NT\$39.8, and NT\$36.6, respectively.
 
-## Repository Structure {#repository-structure}
+## Repository Structure
 
 ``` plaintext
 root/
@@ -58,7 +58,7 @@ root/
 
 - `reports/`: This directory contains presentation slides and report written in Traditional Chinese.
 
-## Required Packages {#required-packages}
+## Required Packages
 
 - sf
 - dplyr
