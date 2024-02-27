@@ -4,9 +4,9 @@ This repository contains the final project for the [Applied Econometrics](https:
 
 ## Table of Contents
 
--   [Project Abstract](#project-abstract)
--   [Repository Structure](#repository-structure)
--   [Required Packages](#required-packages)
+- [Project Abstract](#project-abstract)
+- [Repository Structure](#repository-structure)
+- [Required Packages](#required-packages)
 
 ## Project Abstract {#project-abstract}
 
@@ -56,17 +56,17 @@ root/
  └── .gitignore   
 ```
 
--   `reports/`: This directory contains presentation slides and report written in Traditional Chinese.
+- `reports/`: This directory contains presentation slides and report written in Traditional Chinese.
 
 ## Required Packages {#required-packages}
 
--   sf
--   dplyr
--   readxl
--   zoo
--   tmap
--   ggplot2
--   magrittr
+- sf
+- dplyr
+- readxl
+- zoo
+- tmap
+- ggplot2
+- magrittr
 
 Download the required packages by running the following command in R:
 
