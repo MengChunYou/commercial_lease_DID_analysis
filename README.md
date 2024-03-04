@@ -51,8 +51,7 @@ root/
  │    └── slides.pdf
  │
  ├── main_script.R
- ├── README.md               
- ├── requirements.txt
+ ├── README.md
  └── .gitignore   
 ```
 
