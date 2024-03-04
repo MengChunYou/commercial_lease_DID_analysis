@@ -1,6 +1,6 @@
 # commercial_lease_DID_analysis
 
-This repository contains the final project for the [Applied Econometrics](https://sites.google.com/view/cpelab/teaching/2023-applied-econometrics-%E6%87%89%E7%94%A8%E8%A8%88%E9%87%8F%E7%B6%93%E6%BF%9F%E5%AD%B8) course instructed by [Tzu-Ting Yang](https://sites.google.com/view/cpelab/), focusing on quantifying the causal effect of crowd management on commercial lease prices.
+This repository contains the final project for the [Applied Econometrics](https://sites.google.com/view/cpelab/teaching/2023-applied-econometrics-%E6%87%89%E7%94%A8%E8%A8%88%E9%87%8F%E7%B6%93%E6%BF%9F%E5%AD%B8) course instructed by [Tzu-Ting Yang](https://sites.google.com/view/cpelab/), which took place from September to December 2023. The project focuses on quantifying the causal effect of crowd management on commercial lease prices.
 
 ## Table of Contents
 
